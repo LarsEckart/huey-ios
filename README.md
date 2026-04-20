@@ -1,3 +1,5 @@
+[![Certified Shovelware](https://justin.searls.co/img/shovelware.svg)](https://justin.searls.co/shovelware/)
+
 # Huey iOS
 
 Minimal iOS app for toggling Philips Hue rooms and zones.
