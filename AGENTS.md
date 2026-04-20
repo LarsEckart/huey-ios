@@ -1,6 +1,6 @@
 # huey-ios
 
-Minimal iOS app for toggling Hue room/zone targets (Office + Bedside).
+Minimal iOS app for toggling Hue rooms and zones.
 
 ## Commands
 

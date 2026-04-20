@@ -1,6 +1,6 @@
 # Huey iOS
 
-Minimal iOS app for toggling two Hue room/zone targets: **Office** and **Bedside**.
+Minimal iOS app for toggling Philips Hue rooms and zones.
 
 Built from the same Hue bridge API behavior used in:
 - `~/GitHub/huey` (CLI)
@@ -9,10 +9,8 @@ Built from the same Hue bridge API behavior used in:
 ## What it does
 
 - First-run setup: enter bridge IP and pair via bridge button press
-- Shows two quick toggles:
-  - Office
-  - Bedside
-- Uses Hue **groups** (`Room` / `Zone`) and toggles the whole group on/off
+- Fetches all Hue **groups** of type `Room` or `Zone`
+- Shows one toggle per room/zone and toggles the whole group on/off
 - Includes refresh + reset pairing
 
 ## Build
