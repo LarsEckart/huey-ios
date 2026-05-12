@@ -1,13 +1,13 @@
 import Foundation
 
-struct HueGroup: Identifiable, Equatable {
+struct HueGroup: Identifiable, Equatable, Sendable {
     let id: String
     let name: String
     let type: String
     var anyOn: Bool
 }
 
-enum HueBridgeClientError: LocalizedError {
+enum HueBridgeClientError: LocalizedError, Sendable {
     case invalidBridgeIP
     case malformedResponse(String)
     case bridgeError(String)
@@ -16,15 +16,15 @@ enum HueBridgeClientError: LocalizedError {
         switch self {
         case .invalidBridgeIP:
             "Bridge IP is invalid."
-        case let .malformedResponse(message):
+        case .malformedResponse(let message):
             "Unexpected bridge response: \(message)"
-        case let .bridgeError(message):
+        case .bridgeError(let message):
             message
         }
     }
 }
 
-final class HueBridgeClient {
+final class HueBridgeClient: Sendable {
     private let bridgeIP: String
     private let username: String
     private let session: URLSession
@@ -81,7 +81,8 @@ final class HueBridgeClient {
 
     func setGroupState(groupID: String, on: Bool) async throws {
         var request = try makeRequest(
-            url: authedAPIURL.appendingPathComponent("groups").appendingPathComponent(groupID).appendingPathComponent("action"),
+            url: authedAPIURL.appendingPathComponent("groups").appendingPathComponent(groupID).appendingPathComponent(
+                "action"),
             method: "PUT"
         )
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

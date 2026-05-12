@@ -9,16 +9,24 @@
 /* Begin PBXBuildFile section */
 		0E5183EC9CE9B5244C569256 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D629B4DF0A7D296D271558E8 /* LaunchScreen.storyboard */; };
 		0E7C23AE3ED0E2F1E6B1525F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A87968EE5D0284339E3F77D9 /* Assets.xcassets */; };
+		17D12AB2F19B41392206FFEA /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A27D44BA08B93B891F6E876 /* SetupView.swift */; };
 		5CD11FB335052F5F9108066F /* HueBridgeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73444F437108F7A114E25524 /* HueBridgeClient.swift */; };
 		7BDC9B61459B8EE9874EDBB0 /* HueyIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2FAA073073E9626413307A /* HueyIOSApp.swift */; };
+		A5EDE3A68F59190B0C5AB347 /* LampsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C59AEF1C6CEF9FE45F663E /* LampsViewModel.swift */; };
 		DC55BC7C8B1E467312926BE1 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D59856327F7F1FB84E13B4D /* RootView.swift */; };
+		E4BDBFE583D67F80E64326A2 /* LampsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BF8192108A95C24F8D696F /* LampsView.swift */; };
+		F310ED6587806B526927FC65 /* GroupToggleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF2533D1854F8539594265 /* GroupToggleRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		15BF8192108A95C24F8D696F /* LampsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LampsView.swift; sourceTree = "<group>"; };
 		283CD82C6961DD2270195020 /* HueyIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HueyIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2972AC0F1A4C8936F51E534F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		34C59AEF1C6CEF9FE45F663E /* LampsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LampsViewModel.swift; sourceTree = "<group>"; };
+		3DEF2533D1854F8539594265 /* GroupToggleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupToggleRow.swift; sourceTree = "<group>"; };
 		6D59856327F7F1FB84E13B4D /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		73444F437108F7A114E25524 /* HueBridgeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueBridgeClient.swift; sourceTree = "<group>"; };
+		7A27D44BA08B93B891F6E876 /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		9C2FAA073073E9626413307A /* HueyIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueyIOSApp.swift; sourceTree = "<group>"; };
 		A87968EE5D0284339E3F77D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -27,8 +35,12 @@
 		243519194F6611D8BE029B1B /* App */ = {
 			isa = PBXGroup;
 			children = (
+				3DEF2533D1854F8539594265 /* GroupToggleRow.swift */,
 				9C2FAA073073E9626413307A /* HueyIOSApp.swift */,
+				15BF8192108A95C24F8D696F /* LampsView.swift */,
+				34C59AEF1C6CEF9FE45F663E /* LampsViewModel.swift */,
 				6D59856327F7F1FB84E13B4D /* RootView.swift */,
+				7A27D44BA08B93B891F6E876 /* SetupView.swift */,
 			);
 			name = App;
 			path = Sources/App;
@@ -143,9 +155,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F310ED6587806B526927FC65 /* GroupToggleRow.swift in Sources */,
 				5CD11FB335052F5F9108066F /* HueBridgeClient.swift in Sources */,
 				7BDC9B61459B8EE9874EDBB0 /* HueyIOSApp.swift in Sources */,
+				E4BDBFE583D67F80E64326A2 /* LampsView.swift in Sources */,
+				A5EDE3A68F59190B0C5AB347 /* LampsViewModel.swift in Sources */,
 				DC55BC7C8B1E467312926BE1 /* RootView.swift in Sources */,
+				17D12AB2F19B41392206FFEA /* SetupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +196,7 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.larseckart.hueyios;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.10;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -236,7 +252,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -265,7 +281,7 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.larseckart.hueyios;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.10;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -315,7 +331,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

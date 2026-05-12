@@ -34,4 +34,11 @@ format:
 
 lint: format
 	swift-format lint --strict --recursive $(SWIFT_SOURCES)
-	swiftlint lint --strict
+	swiftlint lint --strict --config .swiftlint.yml
+	@# File length check (max 200 lines)
+	@failed=0; for f in $$(find $(SWIFT_SOURCES) -name '*.swift'); do \
+		lines=$$(wc -l < "$$f"); \
+		if [ $$lines -gt 200 ]; then \
+			echo "$$f: $$lines lines (max 200) - ask Lars"; failed=1; \
+		fi; \
+	done; exit $$failed
