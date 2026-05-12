@@ -13,7 +13,7 @@ generate:
 compile:
 	bash -o pipefail -lc "xcodebuild -project $(PROJECT) -scheme $(SCHEME) -destination 'generic/platform=iOS' -allowProvisioningUpdates build | xcbeautify"
 
-build: generate compile
+build: generate lint compile
 
 deploy: build
 	@APP_PATH=$$(ls -td ~/Library/Developer/Xcode/DerivedData/HueyIOS-*/Build/Products/Debug-iphoneos/HueyIOS.app 2>/dev/null | head -1); \
