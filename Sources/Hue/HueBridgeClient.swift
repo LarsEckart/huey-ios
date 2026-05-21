@@ -1,6 +1,6 @@
 import Foundation
 
-struct HueGroup: Identifiable, Equatable, Sendable {
+struct HueGroup: Codable, Identifiable, Equatable, Sendable {
     let id: String
     let name: String
     let type: String

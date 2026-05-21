@@ -5,8 +5,13 @@ struct LampsView: View {
     let onResetPairing: () -> Void
 
     init(bridgeIP: String, username: String, onResetPairing: @escaping () -> Void) {
+        let cache = HueGroupCache(bridgeIP: bridgeIP, username: username)
         _viewModel = StateObject(
-            wrappedValue: LampsViewModel(client: HueBridgeClient(bridgeIP: bridgeIP, username: username)))
+            wrappedValue: LampsViewModel(
+                client: HueBridgeClient(bridgeIP: bridgeIP, username: username),
+                cache: cache
+            )
+        )
         self.onResetPairing = onResetPairing
     }
 

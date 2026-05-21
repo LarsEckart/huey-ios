@@ -8,9 +8,12 @@ final class LampsViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     private let client: HueBridgeClient
+    private let cache: HueGroupCache?
 
-    init(client: HueBridgeClient) {
+    init(client: HueBridgeClient, cache: HueGroupCache? = nil) {
         self.client = client
+        self.cache = cache
+        self.groups = cache?.load() ?? []
     }
 
     func isBusy(groupID: String) -> Bool {
@@ -23,7 +26,7 @@ final class LampsViewModel: ObservableObject {
 
         do {
             let allGroups = try await client.fetchGroups()
-            groups =
+            let visibleGroups =
                 allGroups
                 .filter { group in
                     let normalizedType = group.type.lowercased()
@@ -35,6 +38,8 @@ final class LampsViewModel: ObservableObject {
                     }
                     return $0.id < $1.id
                 }
+            groups = visibleGroups
+            cache?.save(visibleGroups)
             errorMessage = nil
         } catch {
             errorMessage = error.localizedDescription
@@ -54,8 +59,12 @@ final class LampsViewModel: ObservableObject {
 
         do {
             try await client.setGroupState(groupID: groupID, on: on)
+            cache?.save(groups)
         } catch {
-            groups[index].anyOn = previousState
+            if let currentIndex = groups.firstIndex(where: { $0.id == groupID }) {
+                groups[currentIndex].anyOn = previousState
+            }
+            cache?.save(groups)
             errorMessage = error.localizedDescription
         }
     }

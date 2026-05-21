@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03B18C30F749434D0957823F /* HueGroupCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218522454F09E6F164E9A126 /* HueGroupCache.swift */; };
 		0E5183EC9CE9B5244C569256 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D629B4DF0A7D296D271558E8 /* LaunchScreen.storyboard */; };
 		0E7C23AE3ED0E2F1E6B1525F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A87968EE5D0284339E3F77D9 /* Assets.xcassets */; };
 		17D12AB2F19B41392206FFEA /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A27D44BA08B93B891F6E876 /* SetupView.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		15BF8192108A95C24F8D696F /* LampsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LampsView.swift; sourceTree = "<group>"; };
+		218522454F09E6F164E9A126 /* HueGroupCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueGroupCache.swift; sourceTree = "<group>"; };
 		283CD82C6961DD2270195020 /* HueyIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HueyIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2972AC0F1A4C8936F51E534F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		34C59AEF1C6CEF9FE45F663E /* LampsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LampsViewModel.swift; sourceTree = "<group>"; };
@@ -36,6 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				3DEF2533D1854F8539594265 /* GroupToggleRow.swift */,
+				218522454F09E6F164E9A126 /* HueGroupCache.swift */,
 				9C2FAA073073E9626413307A /* HueyIOSApp.swift */,
 				15BF8192108A95C24F8D696F /* LampsView.swift */,
 				34C59AEF1C6CEF9FE45F663E /* LampsViewModel.swift */,
@@ -157,6 +160,7 @@
 			files = (
 				F310ED6587806B526927FC65 /* GroupToggleRow.swift in Sources */,
 				5CD11FB335052F5F9108066F /* HueBridgeClient.swift in Sources */,
+				03B18C30F749434D0957823F /* HueGroupCache.swift in Sources */,
 				7BDC9B61459B8EE9874EDBB0 /* HueyIOSApp.swift in Sources */,
 				E4BDBFE583D67F80E64326A2 /* LampsView.swift in Sources */,
 				A5EDE3A68F59190B0C5AB347 /* LampsViewModel.swift in Sources */,
