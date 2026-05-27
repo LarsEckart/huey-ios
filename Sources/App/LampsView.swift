@@ -31,6 +31,11 @@ struct LampsView: View {
                                     Task {
                                         await viewModel.set(groupID: group.id, on: newValue)
                                     }
+                                },
+                                onBrightnessChange: { newValue in
+                                    Task {
+                                        await viewModel.setBrightness(groupID: group.id, brightness: newValue)
+                                    }
                                 }
                             )
                         }

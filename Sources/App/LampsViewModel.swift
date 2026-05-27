@@ -68,4 +68,28 @@ final class LampsViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
+
+    func setBrightness(groupID: String, brightness: Int) async {
+        guard let index = groups.firstIndex(where: { $0.id == groupID }) else {
+            return
+        }
+
+        let clampedBrightness = min(max(brightness, 1), 254)
+        busyGroupIDs.insert(groupID)
+        defer { busyGroupIDs.remove(groupID) }
+
+        let previousBrightness = groups[index].brightness
+        groups[index].brightness = clampedBrightness
+
+        do {
+            try await client.setGroupBrightness(groupID: groupID, brightness: clampedBrightness)
+            cache?.save(groups)
+        } catch {
+            if let currentIndex = groups.firstIndex(where: { $0.id == groupID }) {
+                groups[currentIndex].brightness = previousBrightness
+            }
+            cache?.save(groups)
+            errorMessage = error.localizedDescription
+        }
+    }
 }

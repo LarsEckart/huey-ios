@@ -5,6 +5,7 @@ struct HueGroup: Codable, Identifiable, Equatable, Sendable {
     let name: String
     let type: String
     var anyOn: Bool
+    var brightness: Int?
 }
 
 enum HueBridgeClientError: LocalizedError, Sendable {
@@ -66,7 +67,13 @@ final class HueBridgeClient: Sendable {
 
         let groupsByID = try JSONDecoder().decode([String: GroupResponse].self, from: data)
         let groups = groupsByID.map { id, response in
-            HueGroup(id: id, name: response.name, type: response.type, anyOn: response.state.anyOn)
+            HueGroup(
+                id: id,
+                name: response.name,
+                type: response.type,
+                anyOn: response.state.anyOn,
+                brightness: response.action?.brightness
+            )
         }
 
         return groups.sorted { lhs, rhs in
@@ -87,6 +94,19 @@ final class HueBridgeClient: Sendable {
         )
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = try JSONEncoder().encode(["on": on])
+
+        let (data, _) = try await session.data(for: request)
+        try checkBridgeError(in: data)
+    }
+
+    func setGroupBrightness(groupID: String, brightness: Int) async throws {
+        var request = try makeRequest(
+            url: authedAPIURL.appendingPathComponent("groups").appendingPathComponent(groupID).appendingPathComponent(
+                "action"),
+            method: "PUT"
+        )
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try JSONEncoder().encode(["bri": brightness])
 
         let (data, _) = try await session.data(for: request)
         try checkBridgeError(in: data)
@@ -141,6 +161,7 @@ private struct GroupResponse: Decodable {
     let name: String
     let type: String
     let state: GroupStateResponse
+    let action: GroupActionResponse?
 }
 
 private struct GroupStateResponse: Decodable {
@@ -148,6 +169,14 @@ private struct GroupStateResponse: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case anyOn = "any_on"
+    }
+}
+
+private struct GroupActionResponse: Decodable {
+    let brightness: Int
+
+    enum CodingKeys: String, CodingKey {
+        case brightness = "bri"
     }
 }
 
