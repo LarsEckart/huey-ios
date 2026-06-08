@@ -10,7 +10,7 @@ Built from the same Hue bridge API behavior used in:
 
 ## What it does
 
-- First-run setup: enter bridge IP and pair via bridge button press
+- First-run setup: auto-detect bridge IP and pair via bridge button press
 - Fetches all Hue **groups** of type `Room` or `Zone`
 - Shows one toggle per room/zone and toggles the whole group on/off
 - Includes refresh + reset pairing
@@ -36,5 +36,6 @@ xcodebuild \
 ## Notes
 
 - The app talks to the Hue bridge over local HTTP (`http://<bridge-ip>/api`).
+- During setup, it may call Philips Hue's discovery service at `https://discovery.meethue.com/` to find your bridge IP address.
 - It requests Local Network access on iOS.
 - Pairing credentials are stored in `UserDefaults`.

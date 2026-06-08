@@ -14,6 +14,7 @@
 		5CD11FB335052F5F9108066F /* HueBridgeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73444F437108F7A114E25524 /* HueBridgeClient.swift */; };
 		7BDC9B61459B8EE9874EDBB0 /* HueyIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2FAA073073E9626413307A /* HueyIOSApp.swift */; };
 		A5EDE3A68F59190B0C5AB347 /* LampsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C59AEF1C6CEF9FE45F663E /* LampsViewModel.swift */; };
+		A91F491AB31AA29B10B23F95 /* HueBridgeDiscoveryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBCF174E6BC56FDD1EFC3D4 /* HueBridgeDiscoveryClient.swift */; };
 		DC55BC7C8B1E467312926BE1 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D59856327F7F1FB84E13B4D /* RootView.swift */; };
 		E4BDBFE583D67F80E64326A2 /* LampsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BF8192108A95C24F8D696F /* LampsView.swift */; };
 		F310ED6587806B526927FC65 /* GroupToggleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEF2533D1854F8539594265 /* GroupToggleRow.swift */; };
@@ -24,6 +25,7 @@
 		218522454F09E6F164E9A126 /* HueGroupCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueGroupCache.swift; sourceTree = "<group>"; };
 		283CD82C6961DD2270195020 /* HueyIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HueyIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2972AC0F1A4C8936F51E534F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2CBCF174E6BC56FDD1EFC3D4 /* HueBridgeDiscoveryClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HueBridgeDiscoveryClient.swift; sourceTree = "<group>"; };
 		34C59AEF1C6CEF9FE45F663E /* LampsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LampsViewModel.swift; sourceTree = "<group>"; };
 		3DEF2533D1854F8539594265 /* GroupToggleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupToggleRow.swift; sourceTree = "<group>"; };
 		6D59856327F7F1FB84E13B4D /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				73444F437108F7A114E25524 /* HueBridgeClient.swift */,
+				2CBCF174E6BC56FDD1EFC3D4 /* HueBridgeDiscoveryClient.swift */,
 			);
 			name = Hue;
 			path = Sources/Hue;
@@ -160,6 +163,7 @@
 			files = (
 				F310ED6587806B526927FC65 /* GroupToggleRow.swift in Sources */,
 				5CD11FB335052F5F9108066F /* HueBridgeClient.swift in Sources */,
+				A91F491AB31AA29B10B23F95 /* HueBridgeDiscoveryClient.swift in Sources */,
 				03B18C30F749434D0957823F /* HueGroupCache.swift in Sources */,
 				7BDC9B61459B8EE9874EDBB0 /* HueyIOSApp.swift in Sources */,
 				E4BDBFE583D67F80E64326A2 /* LampsView.swift in Sources */,
