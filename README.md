@@ -15,22 +15,18 @@ Built from the same Hue bridge API behavior used in:
 - Shows one toggle per room/zone and toggles the whole group on/off
 - Includes refresh + reset pairing
 
-## Build
+## Build & Test
+
+Requires Xcode 16+, iOS 18.0+, and Homebrew-installed tooling.
 
 ```bash
-cd ~/GitHub/huey-ios
-xcodegen generate
-open HueyIOS.xcodeproj
-```
-
-Or build from CLI:
-
-```bash
-xcodebuild \
-  -project HueyIOS.xcodeproj \
-  -scheme HueyIOS \
-  -destination 'generic/platform=iOS Simulator' \
-  build
+just generate   # regenerate Xcode project from project.yml
+just build      # generate, format/lint, and build for device
+just install    # build + install to device
+just uninstall  # uninstall app from the device
+just format     # format Swift sources in place
+just lint       # format + strict swift-format + SwiftLint + file length check
+just clean      # clean build artifacts
 ```
 
 ## Notes

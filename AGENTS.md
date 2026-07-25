@@ -4,14 +4,14 @@ Minimal iOS app for toggling Hue rooms and zones.
 
 ## Commands
 
-Use these Make targets for all routine work:
+Use these `just` recipes for all routine work:
 
-- Generate project: `make generate`
-- Compile app (generic iOS): `make compile`
-- Build (generate + lint + compile): `make build`
-- Deploy to Lars's iPhone: `make deploy`
-- Uninstall from device: `make uninstall`
-- Run tests on device: `make test`
-- Format Swift sources: `make format`
-- Lint Swift sources: `make lint` (formats first, then runs swift-format, SwiftLint, and the 200-line file length check)
-- Clean build artifacts: `make clean`
+- Generate project: `just generate`
+- Build (generate + lint + compile): `just build`
+- Install on Lars's iPhone: `just install`
+- Uninstall from device: `just uninstall`
+- Format Swift sources: `just format`
+- Lint Swift sources: `just lint` (formats first, then runs swift-format, SwiftLint, and the 200-line file length check)
+- Clean build artifacts: `just clean`
+
+This project does not have a Core package or automated tests yet.
