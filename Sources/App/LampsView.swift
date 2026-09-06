@@ -2,6 +2,8 @@ import SwiftUI
 
 struct LampsView: View {
     @StateObject private var viewModel: LampsViewModel
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var didEnterForeground = false
     let onResetPairing: () -> Void
 
     init(bridgeIP: String, username: String, onResetPairing: @escaping () -> Void) {
@@ -60,6 +62,18 @@ struct LampsView: View {
             }
             .refreshable {
                 await viewModel.refresh()
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                guard newPhase == .active else { return }
+                // Skip the first active transition: the initial load already
+                // happened via .task when the view first appeared.
+                guard didEnterForeground else {
+                    didEnterForeground = true
+                    return
+                }
+                Task {
+                    await viewModel.refresh()
+                }
             }
             .alert(
                 "Hue Error",
