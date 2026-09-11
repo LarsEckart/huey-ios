@@ -1,6 +1,12 @@
 import Foundation
+import HueCore
 
-struct HueGroupCache {
+/// UserDefaults-backed adapter for the core's group persistence seam.
+///
+/// ``UserDefaults`` is thread-safe for the single-key access we perform but is
+/// not marked ``Sendable`` in the SDK, so we opt out explicitly for this outer
+/// adapter.
+struct HueGroupCache: HueGroupCaching, @unchecked Sendable {
     private let key: String
     private let storage: UserDefaults
 

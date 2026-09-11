@@ -1,5 +1,6 @@
 included:
   - Sources
+  - HueCore/Sources
 
 only_rules:
   - contains_over_filter_count

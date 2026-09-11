@@ -4,15 +4,20 @@ options:
   deploymentTarget:
     iOS: "18.0"
 
+packages:
+  HueCore:
+    path: HueCore
+
 targets:
   HueyIOS:
     type: application
     platform: iOS
     sources:
       - path: Sources/App
-      - path: Sources/Hue
       - path: Sources/Resources
         buildPhase: resources
+    dependencies:
+      - package: HueCore
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.larseckart.hueyios
       MARKETING_VERSION: "0.1.0"

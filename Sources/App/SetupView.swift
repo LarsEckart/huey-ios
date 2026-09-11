@@ -1,9 +1,9 @@
+import HueCore
 import SwiftUI
 
 struct SetupView: View {
     @Binding var bridgeIP: String
     @Binding var username: String
-
     @State private var enteredBridgeIP = ""
     @State private var discoveredBridges: [HueBridge] = []
     @State private var selectedBridgeID = ""
@@ -11,6 +11,22 @@ struct SetupView: View {
     @State private var isDiscovering = false
     @State private var isPairing = false
     @State private var errorMessage: String?
+
+    // Ready-made, replaceable dependencies injected by the composition root.
+    private let discovery: any HueDiscovering
+    private let makeBridgeClient: (String, String) -> any HueBridgeClient
+
+    init(
+        discovery: any HueDiscovering,
+        makeBridgeClient: @escaping (String, String) -> any HueBridgeClient,
+        bridgeIP: Binding<String>,
+        username: Binding<String>
+    ) {
+        self.discovery = discovery
+        self.makeBridgeClient = makeBridgeClient
+        self._bridgeIP = bridgeIP
+        self._username = username
+    }
 
     var body: some View {
         NavigationStack {
@@ -90,7 +106,7 @@ struct SetupView: View {
         defer { isDiscovering = false }
 
         do {
-            let bridges = try await HueBridgeDiscoveryClient().discover()
+            let bridges = try await discovery.discover()
             applyDiscoveredBridges(bridges)
         } catch {
             statusMessage = "Automatic discovery failed. Enter your bridge IP manually."
@@ -146,7 +162,7 @@ struct SetupView: View {
 
         Task {
             do {
-                let client = HueBridgeClient(bridgeIP: ip, username: "")
+                let client = makeBridgeClient(ip, "")
                 let pairedUsername = try await client.register(deviceType: "huey-ios#iphone")
                 bridgeIP = ip
                 username = pairedUsername

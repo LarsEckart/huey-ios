@@ -1,3 +1,4 @@
+import HueCore
 import SwiftUI
 
 struct GroupToggleRow: View {

@@ -8,6 +8,8 @@ device_udid := "00008110-001119C83CE1801E"
 device := "platform=iOS,name=tubli poisi iPhone"
 bundle_id := "com.larseckart.hueyios"
 source_dirs := "Sources"
+core_sources := "HueCore/Sources"
+lint_dirs := "Sources HueCore/Sources"
 
 # Default recipe listing
 _default:
@@ -50,19 +52,30 @@ install: build
 
 # Format Swift code in place
 @format:
-	swift-format format --in-place --recursive {{source_dirs}}
+	#!/usr/bin/env bash
+	set -euo pipefail
+	for dir in {{source_dirs}} {{core_sources}}; do swift-format format --in-place --recursive "$dir"; done
 
 # Lint Swift sources (format first, then fail if anything needs fixing)
 @lint: format
-	swift-format lint --strict --recursive {{source_dirs}}
+	#!/usr/bin/env bash
+	set -euo pipefail
+	swift-format lint --strict --recursive {{source_dirs}} {{core_sources}}
 	swiftlint lint --strict --config .swiftlint.yml
-	# File length check (max 200 lines)
-	failed=0; for f in $(find {{source_dirs}} -name '*.swift'); do \
-		lines=$(wc -l < "$f"); \
-		if [ $lines -gt 200 ]; then \
-			echo "$f: $lines lines (max 200) - ask Lars"; failed=1; \
-		fi; \
-	done; exit $failed
+	# File length check (max 200 lines); keep failing regardless of exit status of the loop
+	long=0
+	for f in $(find {{lint_dirs}} -name '*.swift'); do
+		lines=$(wc -l < "$f")
+		if [ $lines -gt 200 ]; then
+			echo "$f: $lines lines (max 200) - ask Lars"
+			long=1
+		fi
+	done
+	exit $long
+
+# Run headless HueCore tests on macOS (no iOS host, simulator, or device)
+@test:
+	cd HueCore && swift test
 
 # Clean build artifacts
 clean:

@@ -1,3 +1,4 @@
+import HueCore
 import SwiftUI
 
 struct LampsView: View {
@@ -6,14 +7,8 @@ struct LampsView: View {
     @State private var didEnterForeground = false
     let onResetPairing: () -> Void
 
-    init(bridgeIP: String, username: String, onResetPairing: @escaping () -> Void) {
-        let cache = HueGroupCache(bridgeIP: bridgeIP, username: username)
-        _viewModel = StateObject(
-            wrappedValue: LampsViewModel(
-                client: HueBridgeClient(bridgeIP: bridgeIP, username: username),
-                cache: cache
-            )
-        )
+    init(updater: HueGroupUpdater, onResetPairing: @escaping () -> Void) {
+        _viewModel = StateObject(wrappedValue: LampsViewModel(updater: updater))
         self.onResetPairing = onResetPairing
     }
 

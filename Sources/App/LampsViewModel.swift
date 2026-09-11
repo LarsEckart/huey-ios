@@ -1,5 +1,14 @@
 import Foundation
+import HueCore
 
+/// Presentation state for the lamps list.
+///
+/// This is a UI adapter. Product rules (room/zone selection, ordering,
+/// brightness clamping, and the optimistic update/rollback decision) live in
+/// `HueGroupUpdater`, which also owns the current group list. The updater
+/// publishes every optimistic/resolved/refresh snapshot through an
+/// `AsyncStream`; this type reflects those snapshots into observable state and
+/// keeps busy/refreshing/error flags that are presentation concerns only.
 @MainActor
 final class LampsViewModel: ObservableObject {
     @Published private(set) var groups: [HueGroup] = []
@@ -7,13 +16,12 @@ final class LampsViewModel: ObservableObject {
     @Published private(set) var isRefreshing = false
     @Published var errorMessage: String?
 
-    private let client: HueBridgeClient
-    private let cache: HueGroupCache?
+    private let updater: HueGroupUpdater
 
-    init(client: HueBridgeClient, cache: HueGroupCache? = nil) {
-        self.client = client
-        self.cache = cache
-        self.groups = cache?.load() ?? []
+    init(updater: HueGroupUpdater) {
+        self.updater = updater
+        self.groups = updater.currentGroups()
+        observeSnapshots()
     }
 
     func isBusy(groupID: String) -> Bool {
@@ -24,72 +32,48 @@ final class LampsViewModel: ObservableObject {
         isRefreshing = true
         defer { isRefreshing = false }
 
-        do {
-            let allGroups = try await client.fetchGroups()
-            let visibleGroups =
-                allGroups
-                .filter { group in
-                    let normalizedType = group.type.lowercased()
-                    return normalizedType == "room" || normalizedType == "zone"
-                }
-                .sorted {
-                    if $0.name.localizedCaseInsensitiveCompare($1.name) != .orderedSame {
-                        return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-                    }
-                    return $0.id < $1.id
-                }
-            groups = visibleGroups
-            cache?.save(visibleGroups)
+        switch await updater.refresh() {
+        case .succeeded:
             errorMessage = nil
-        } catch {
+        case .failed(let error):
             errorMessage = error.localizedDescription
         }
     }
 
     func set(groupID: String, on: Bool) async {
-        guard let index = groups.firstIndex(where: { $0.id == groupID }) else {
-            return
-        }
-
-        busyGroupIDs.insert(groupID)
-        defer { busyGroupIDs.remove(groupID) }
-
-        let previousState = groups[index].anyOn
-        groups[index].anyOn = on
-
-        do {
-            try await client.setGroupState(groupID: groupID, on: on)
-            cache?.save(groups)
-        } catch {
-            if let currentIndex = groups.firstIndex(where: { $0.id == groupID }) {
-                groups[currentIndex].anyOn = previousState
+        await setBusy(groupID: groupID) {
+            switch await self.updater.setOn(groupID: groupID, on: on) {
+            case .notFound, .applied, .superseded:
+                break
+            case .failed(let error):
+                self.errorMessage = error.localizedDescription
             }
-            cache?.save(groups)
-            errorMessage = error.localizedDescription
         }
     }
 
     func setBrightness(groupID: String, brightness: Int) async {
-        guard let index = groups.firstIndex(where: { $0.id == groupID }) else {
-            return
+        await setBusy(groupID: groupID) {
+            switch await self.updater.setBrightness(groupID: groupID, to: brightness) {
+            case .notFound, .applied, .superseded:
+                break
+            case .failed(let error):
+                self.errorMessage = error.localizedDescription
+            }
         }
+    }
 
-        let clampedBrightness = min(max(brightness, 1), 254)
+    private func observeSnapshots() {
+        let updates = updater.snapshotUpdates()
+        Task { @MainActor in
+            for await snapshot in updates {
+                self.groups = snapshot
+            }
+        }
+    }
+
+    private func setBusy(groupID: String, operation: () async -> Void) async {
         busyGroupIDs.insert(groupID)
         defer { busyGroupIDs.remove(groupID) }
-
-        let previousBrightness = groups[index].brightness
-        groups[index].brightness = clampedBrightness
-
-        do {
-            try await client.setGroupBrightness(groupID: groupID, brightness: clampedBrightness)
-            cache?.save(groups)
-        } catch {
-            if let currentIndex = groups.firstIndex(where: { $0.id == groupID }) {
-                groups[currentIndex].brightness = previousBrightness
-            }
-            cache?.save(groups)
-            errorMessage = error.localizedDescription
-        }
+        await operation()
     }
 }
